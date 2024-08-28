@@ -2,6 +2,7 @@ using MySqlConnector;
 using BlogAPI.Data;
 using BlogAPI.Repositories.Interface;
 using BlogAPI.Repositories;
+using Microsoft.EntityFrameworkCore;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -11,7 +12,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddMySqlDataSource(builder.Configuration.GetConnectionString("DataBase"));
+builder.Services.AddDbContext<ArtigoDBContext>(options =>
+    options.UseMySql(builder.Configuration.GetConnectionString("DataBase"), new MySqlServerVersion(new Version(8, 0, 21))));
 
 builder.Services.AddScoped<IArtigosRepositorie, ArtigoRepositorie>();
 

@@ -1,4 +1,6 @@
 ﻿using blog_aspAPI.Model;
+using BlogAPI.Repositories;
+using BlogAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +10,46 @@ namespace blog_aspAPI.Controler
     [ApiController]
     public class ArtigoController : ControllerBase
     {
-        [HttpGet]
-        public ActionResult<List<ArtigoModel>> BuscaArtigo()
+        private readonly IArtigosRepositorie _artigosRepositorie;
+        public ArtigoController(IArtigosRepositorie artigosRepositorie)
         {
-            return Ok();
+            _artigosRepositorie = artigosRepositorie;
         }
+        [HttpGet]
+        public async Task<ActionResult<List<ArtigoModel>>> BuscaArtigo()
+        {
+           List<ArtigoModel> artigos = await _artigosRepositorie.BuscarArtigos();
+            return Ok(artigos);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<ArtigoModel>> BuscarPorId(int id)
+        {
+            ArtigoModel artigo = await _artigosRepositorie.BuscarArtigoPorId(id);
+            return Ok(artigo);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<ArtigoModel>> Adicionar([FromBody] ArtigoModel artigoModel)
+        {
+            ArtigoModel artigo = await _artigosRepositorie.Adicionar(artigoModel);
+            return Ok(artigo);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<ActionResult<ArtigoModel>> Atualizar([FromBody] ArtigoModel artigoModel, int id)
+        {
+            artigoModel.Id = id;
+            ArtigoModel artigo = await _artigosRepositorie.Atualizar(artigoModel, id);
+            return Ok(artigo);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult<bool>> Apagar(int id)
+        {
+            bool apagado = await _artigosRepositorie.Apagar(id);
+            return Ok(apagado);
+        }
+
     }
 }

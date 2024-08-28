@@ -6,7 +6,7 @@
         public string Titulo { get; set; }
         public string Artigo { get; set; }
         public string Autor { get; set; }
-        public DateTime DataEscrita { get; set; }
-        public DateTime UltimaAtualizacao { get; set; }
+        public DateTime Data_Escrita { get; set; }
+        public DateTime Ultima_Atualizacao { get; set; }
     }
 }

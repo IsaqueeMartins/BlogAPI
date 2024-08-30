@@ -13,6 +13,10 @@ namespace BlogAPI.Repositories
         {
             _context = artigoDBContext;
         }
+        public async Task<ArtigoModel> BuscarPorTitulo(string titulo)
+        {
+            return await _context.Artigos.FirstOrDefaultAsync(x => x.Titulo == titulo);
+        }
         public async Task<ArtigoModel> BuscarArtigoPorId(int id)
         {
             return await _context.Artigos.FirstOrDefaultAsync(x => x.Id == id);

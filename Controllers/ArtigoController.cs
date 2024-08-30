@@ -3,10 +3,11 @@ using BlogAPI.Repositories;
 using BlogAPI.Repositories.Interface;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Query.Internal;
 
 namespace blog_aspAPI.Controler
 {
-    [Route("api/[controller]")]
+    [Route("api/[controller]/")]
     [ApiController]
     public class ArtigoController : ControllerBase
     {
@@ -22,10 +23,19 @@ namespace blog_aspAPI.Controler
             return Ok(artigos);
         }
 
-        [HttpGet("{id}")]
+        [Route("id={id}")]
+        [HttpGet]
         public async Task<ActionResult<ArtigoModel>> BuscarPorId(int id)
         {
             ArtigoModel artigo = await _artigosRepositorie.BuscarArtigoPorId(id);
+            return Ok(artigo);
+        }
+
+        [Route("titulo_like={titulo}")]
+        [HttpGet]
+        public async Task<ActionResult<ArtigoModel>> BuscarTitulo(string titulo)
+        {
+            ArtigoModel artigo = await _artigosRepositorie.BuscarPorTitulo(titulo);
             return Ok(artigo);
         }
 

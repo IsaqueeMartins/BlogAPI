@@ -13,10 +13,24 @@ namespace BlogAPI.Repositories
         {
             _context = artigoDBContext;
         }
-        public async Task<ArtigoModel> BuscarPorTitulo(string titulo)
+        public async Task<IEnumerable<ArtigoModel>> BuscarPorTitulo(string titulo)
         {
-            return await _context.Artigos.FirstOrDefaultAsync(x => x.Titulo == titulo);
-        }
+            var artigos = await _context.Artigos
+                .Where(a => a.Titulo.Contains(titulo))
+                .Select(a => new ArtigoModel
+                {
+                    Id = a.Id,
+                    Titulo = a.Titulo,
+                    Artigo = a.Artigo,
+                    Autor = a.Autor,
+                    Data_Escrita = a.Data_Escrita,
+                    Ultima_Atualizacao = a.Ultima_Atualizacao
+                })
+            .ToListAsync();
+
+            return artigos;
+            }
+        
         public async Task<ArtigoModel> BuscarArtigoPorId(int id)
         {
             return await _context.Artigos.FirstOrDefaultAsync(x => x.Id == id);

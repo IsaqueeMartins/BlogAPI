@@ -4,7 +4,7 @@ namespace BlogAPI.Repositories.Interface
 {
     public interface IArtigosRepositorie
     {
-        Task<ArtigoModel> BuscarPorTitulo(string titulo);
+        Task<IEnumerable<ArtigoModel>> BuscarPorTitulo(string titulo);
         Task<ArtigoModel> BuscarArtigoPorId(int id);
         Task<List<ArtigoModel>> BuscarArtigos();
         Task<ArtigoModel> Adicionar(ArtigoModel artigo);

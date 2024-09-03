@@ -1,10 +1,6 @@
 ﻿using blog_aspAPI.Model;
-using BlogAPI.Repositories;
 using BlogAPI.Repositories.Interface;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore.Query.Internal;
-
 namespace blog_aspAPI.Controler
 {
     [Route("api/[controller]/")]
@@ -33,9 +29,9 @@ namespace blog_aspAPI.Controler
 
         [Route("titulo_like={titulo}")]
         [HttpGet]
-        public async Task<ActionResult<ArtigoModel>> BuscarTitulo(string titulo)
+        public async Task<ActionResult<IEnumerable<ArtigoModel>>> BuscarTitulo(string titulo)
         {
-            ArtigoModel artigo = await _artigosRepositorie.BuscarPorTitulo(titulo);
+            IEnumerable<ArtigoModel> artigo = await _artigosRepositorie.BuscarPorTitulo(titulo);
             return Ok(artigo);
         }
 
